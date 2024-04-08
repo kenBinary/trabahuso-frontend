@@ -3,6 +3,7 @@ import Introduction from "../components/insight-page/Introduction";
 import Overview from "../components/insight-page/Overview";
 import Location from "../components/insight-page/Location";
 import Salary from "../components/insight-page/Salary";
+import Technologies from "../components/insight-page/Technologies";
 
 export default function InsightPage() {
   return (
@@ -11,6 +12,7 @@ export default function InsightPage() {
       <Overview></Overview>
       <Location></Location>
       <Salary></Salary>
+      <Technologies></Technologies>
     </Box>
   );
 }
