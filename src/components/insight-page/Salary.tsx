@@ -1,16 +1,14 @@
 import { Box, Heading, VStack, Text, Badge } from "@chakra-ui/react";
+import { SimpleBarChart, testData } from "../charts";
 
 export default function Salary() {
   return (
-    <VStack align="start" px="56" py="4" outline="1px solid black">
+    <VStack align="start" px="56" py="4">
       <Heading>Salary</Heading>
-      <Box w="full" border="1px solid black" height="xl">
-        histogram
+      <Box w="full" height="xl">
+        <SimpleBarChart data={testData}></SimpleBarChart>
       </Box>
 
-      <Heading as="h4" size="md">
-        undisclosed salaries
-      </Heading>
       <Box>
         <Badge colorScheme="green" variant="solid" letterSpacing="md">
           NOTE
