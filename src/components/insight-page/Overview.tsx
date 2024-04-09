@@ -89,7 +89,7 @@ export default function Overview() {
 
             <Box flexShrink="0">
               <StepTitle>{step.title}</StepTitle>
-              <StepDescription>
+              <StepDescription as="div">
                 <Flex align="center" gap="1" cursor="pointer">
                   <Popover placement="top">
                     <PopoverTrigger>
