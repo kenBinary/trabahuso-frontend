@@ -105,8 +105,11 @@ export function SimpleBarChart({ data }: Chart) {
         margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
       >
         <CartesianGrid />
-        <XAxis dataKey={name} />
-        <YAxis domain={[0, "dataMax+200"]} />
+        <XAxis dataKey={name} allowDecimals={false} />
+        <YAxis
+          allowDecimals={false}
+          domain={[0, (dataMax: number) => Math.ceil(dataMax + dataMax * 0.1)]}
+        />
         <Tooltip />
         <Legend iconType="square" verticalAlign="top" />
         <Bar dataKey={value} fill="#00668c">
