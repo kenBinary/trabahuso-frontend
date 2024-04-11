@@ -14,6 +14,7 @@ import {
 
 interface Chart {
   data: Array<object>;
+  barDataKey?: string;
 }
 export function SimplePieChart({ data }: Chart) {
   let [name, value] = ["", ""];
@@ -61,7 +62,7 @@ export function SimplePieChart({ data }: Chart) {
     </ResponsiveContainer>
   );
 }
-export function SimpleBarChart({ data }: Chart) {
+export function SimpleBarChart({ data, barDataKey = "" }: Chart) {
   let [name, value] = ["", ""];
   if (data.length > 0) {
     [name, value] = Object.keys(data[0]);
@@ -112,7 +113,7 @@ export function SimpleBarChart({ data }: Chart) {
         />
         <Tooltip />
         <Legend iconType="square" verticalAlign="top" />
-        <Bar dataKey={value} fill="#00668c">
+        <Bar dataKey={barDataKey ? barDataKey : value} fill="#00668c">
           {data.map((_entry, index) => (
             <Cell key={`cell-${index}`} fill={colors[index % 20]} />
           ))}
