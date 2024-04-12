@@ -6,9 +6,9 @@ export default function Introduction() {
         Explore Tech Job Insights
       </Heading>
       <Text color="brand.text-200" fontSize="2xl">
-        Data visualizations of scraped jobs providing insights to the software
-        developer job market, salaries, and in-demand tech skills in the
-        philippines.
+        Data visualizations of scraped software developer jobs providing
+        insights to the software developer job market, salaries, and in-demand
+        tech skills in the philippines.
       </Text>
     </Flex>
   );
