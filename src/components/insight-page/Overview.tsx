@@ -200,9 +200,9 @@ export default function Overview() {
 
       <Callout title="Disclaimer" type="error">
         The data presented may not fully represent the actual software developer
-        job market in the country. work on the processes of data analysis will
-        continue to ensure that the visualizations, intepretations, and cleaning
-        of data will be accurate.
+        job market in the country. I will continue refining the data analysis
+        processes to ensure the accuracy of visualizations, interpretations, and
+        data cleaning.
       </Callout>
     </Flex>
   );
