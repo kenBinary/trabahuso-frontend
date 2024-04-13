@@ -26,6 +26,7 @@ import {
 } from "@chakra-ui/react";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import useFetchOnMount from "../../hooks/useFetchOnMount";
+import Callout from "../Callout";
 
 interface StatCardProps {
   statLabel: string;
@@ -196,6 +197,13 @@ export default function Overview() {
           statNumber={isLoading ? "...." : lastDateScrape}
         ></StatCard>
       </Flex>
+
+      <Callout title="Disclaimer" type="error">
+        The data presented may not fully represent the actual software developer
+        job market in the country. work on the processes of data analysis will
+        continue to ensure that the visualizations, intepretations, and cleaning
+        of data will be accurate.
+      </Callout>
     </Flex>
   );
 }
