@@ -15,6 +15,10 @@ export default function Location() {
     []
   );
 
+  const medianSalaryList = data.filter((job) => {
+    return job.medianSalary !== null;
+  });
+
   return (
     <VStack px="56" align="start" py="4" gap="2">
       <Heading>Location</Heading>
@@ -56,7 +60,7 @@ export default function Location() {
           <Heading>Failed to retrieve data</Heading>
         ) : (
           <SimpleBarChart
-            data={data}
+            data={medianSalaryList}
             barDataKey="medianSalary"
           ></SimpleBarChart>
         )}
