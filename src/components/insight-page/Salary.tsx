@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { SimpleBarChart } from "../charts";
 import useFetchOnMount from "../../hooks/useFetchOnMount";
+import { setBarChartHeight } from "../../util/elementHeightUtil";
 
 interface SalaryRange {
   range: string;
@@ -30,7 +31,12 @@ export default function Salary() {
     <VStack align="start" px="56" py="4">
       <Heading>Salary</Heading>
 
-      <Flex w="full" height="xl" justifyContent="center" alignItems="center">
+      <Flex
+        w="full"
+        height={setBarChartHeight(data.disclosed.length)}
+        justifyContent="center"
+        alignItems="center"
+      >
         {isLoading ? (
           <Spinner
             thickness="4px"

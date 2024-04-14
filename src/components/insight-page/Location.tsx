@@ -1,6 +1,7 @@
 import { Heading, VStack, Spinner, Flex } from "@chakra-ui/react";
 import { SimpleBarChart } from "../charts";
 import useFetchOnMount from "../../hooks/useFetchOnMount";
+import { setBarChartHeight } from "../../util/elementHeightUtil";
 
 interface JobLocation {
   location: string;
@@ -8,14 +9,21 @@ interface JobLocation {
   medianSalary: number;
 }
 
-export default function Location() {
-  const url = "http://localhost:3000/api/job-locations/";
-  const { isLoading, isError, data } = useFetchOnMount<Array<JobLocation>>(
-    url,
-    []
-  );
+interface JobLocations {
+  data: Array<JobLocation>;
+  limitCount: number;
+  totalCount: number;
+}
 
-  const medianSalaryList = data.filter((job) => {
+export default function Location() {
+  const url = "http://localhost:3000/api/job-locations";
+  const { isLoading, isError, data } = useFetchOnMount<JobLocations>(url, {
+    data: [],
+    limitCount: 0,
+    totalCount: 0,
+  });
+
+  const medianSalaryList = data.data.filter((job) => {
     return job.medianSalary !== null;
   });
 
@@ -27,7 +35,12 @@ export default function Location() {
         Job frequency by location
       </Heading>
 
-      <Flex w="full" height="xl" justifyContent="center" alignItems="center">
+      <Flex
+        w="full"
+        height={setBarChartHeight(data.data.length)}
+        justifyContent="center"
+        alignItems="center"
+      >
         {isLoading ? (
           <Spinner
             thickness="4px"
@@ -39,7 +52,10 @@ export default function Location() {
         ) : isError ? (
           <Heading>Failed to retrieve data</Heading>
         ) : (
-          <SimpleBarChart data={data} barDataKey="jobCount"></SimpleBarChart>
+          <SimpleBarChart
+            data={data.data}
+            barDataKey="jobCount"
+          ></SimpleBarChart>
         )}
       </Flex>
 
@@ -47,7 +63,12 @@ export default function Location() {
         Median Salary by location
       </Heading>
 
-      <Flex w="full" height="xl" justifyContent="center" alignItems="center">
+      <Flex
+        w="full"
+        height={setBarChartHeight(data.data.length)}
+        justifyContent="center"
+        alignItems="center"
+      >
         {isLoading ? (
           <Spinner
             thickness="4px"

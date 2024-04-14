@@ -1,6 +1,7 @@
 import { Flex, Heading, Spinner } from "@chakra-ui/react";
 import { SimpleBarChart } from "../charts";
 import useFetchOnMount from "../../hooks/useFetchOnMount";
+import { setBarChartHeight } from "../../util/elementHeightUtil";
 
 interface Tech {
   tech_type: string;
@@ -59,7 +60,12 @@ export default function Technologies() {
       <Heading as="h4" size="md">
         Programming Languages
       </Heading>
-      <Flex w="full" height="xl" justifyContent="center" alignItems="center">
+      <Flex
+        w="full"
+        height={setBarChartHeight(plData.length)}
+        justifyContent="center"
+        alignItems="center"
+      >
         {plLoading ? (
           <Spinner
             thickness="4px"
@@ -78,7 +84,12 @@ export default function Technologies() {
       <Heading as="h4" size="md">
         Databases
       </Heading>
-      <Flex w="full" height="xl" justifyContent="center" alignItems="center">
+      <Flex
+        w="full"
+        height={setBarChartHeight(dbData.length)}
+        justifyContent="center"
+        alignItems="center"
+      >
         {dbLoading ? (
           <Spinner
             thickness="4px"
@@ -97,7 +108,12 @@ export default function Technologies() {
       <Heading as="h4" size="md">
         Frameworks and libraries
       </Heading>
-      <Flex w="full" height="xl" justifyContent="center" alignItems="center">
+      <Flex
+        w="full"
+        height={setBarChartHeight(flData.length)}
+        justifyContent="center"
+        alignItems="center"
+      >
         {flLoading ? (
           <Spinner
             thickness="4px"
@@ -116,7 +132,12 @@ export default function Technologies() {
       <Heading as="h4" size="md">
         cloud platforms
       </Heading>
-      <Flex w="full" height="xl" justifyContent="center" alignItems="center">
+      <Flex
+        w="full"
+        height={setBarChartHeight(clpData.length)}
+        justifyContent="center"
+        alignItems="center"
+      >
         {clpLoading ? (
           <Spinner
             thickness="4px"
@@ -135,7 +156,12 @@ export default function Technologies() {
       <Heading as="h4" size="md">
         tools
       </Heading>
-      <Flex w="full" height="xl" justifyContent="center" alignItems="center">
+      <Flex
+        w="full"
+        height={setBarChartHeight(tlsData.length)}
+        justifyContent="center"
+        alignItems="center"
+      >
         {tlsLoading ? (
           <Spinner
             thickness="4px"
