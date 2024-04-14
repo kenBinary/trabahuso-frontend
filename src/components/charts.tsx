@@ -10,6 +10,7 @@ import {
   Cell,
   BarChart,
   Bar,
+  LabelList,
 } from "recharts";
 
 interface Chart {
@@ -104,16 +105,24 @@ export function SimpleBarChart({ data, barDataKey = "" }: Chart) {
       <BarChart
         data={data}
         margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
+        layout="vertical"
       >
         <CartesianGrid />
-        <XAxis dataKey={name} allowDecimals={false} />
-        <YAxis
+        <XAxis
+          type="number"
           allowDecimals={false}
           domain={[0, (dataMax: number) => Math.ceil(dataMax + dataMax * 0.1)]}
+        />
+        <YAxis
+          dataKey={name}
+          type="category"
+          allowDecimals={false}
+          hide={true}
         />
         <Tooltip />
         <Legend iconType="square" verticalAlign="top" />
         <Bar dataKey={barDataKey ? barDataKey : value} fill="#00668c">
+          <LabelList dataKey={name} position="insideLeft" fill="black" />
           {data.map((_entry, index) => (
             <Cell key={`cell-${index}`} fill={colors[index % 20]} />
           ))}
