@@ -1,7 +1,13 @@
 import { Flex, Heading, Text } from "@chakra-ui/react";
 export default function Introduction() {
   return (
-    <Flex direction="column" gap="4" px="56" h="xs" justify="center">
+    <Flex
+      direction="column"
+      gap="4"
+      px={{ base: 2, sm: 8, md: 24, xl: 56 }}
+      paddingTop="10"
+      justify="center"
+    >
       <Heading as="h2" size="3xl">
         Explore Tech Job Insights
       </Heading>

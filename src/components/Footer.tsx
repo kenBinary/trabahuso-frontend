@@ -7,8 +7,8 @@ export default function Footer() {
       as="footer"
       align="center"
       flexDirection="column"
-      px="56"
-      py="3"
+      px={{ base: 2, sm: 8, md: 24, xl: 56 }}
+      py="2"
       bgColor="brand.accent"
     >
       <Link href="https://github.com/kenBinary" target="_blank">

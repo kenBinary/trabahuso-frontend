@@ -7,7 +7,7 @@ import Technologies from "../components/insight-page/Technologies";
 
 export default function InsightPage() {
   return (
-    <Box as="main">
+    <Box as="main" display="flex" flexDirection="column" rowGap="10">
       <Introduction></Introduction>
       <Overview></Overview>
       <Location></Location>

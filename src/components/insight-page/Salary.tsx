@@ -28,11 +28,11 @@ export default function Salary() {
   });
 
   return (
-    <VStack align="start" px="56" py="4">
+    <VStack align="start" px={{ base: 2, sm: 8, md: 24, xl: 56 }} gap="4">
       <Heading>Salary</Heading>
 
       <Flex flexDirection="row" gap="5">
-        <Heading as="h4" size="md" flexGrow="1" flexShrink="0">
+        <Heading as="h4" size="md" flexGrow="1" flexShrink="1">
           Salary Range Distribution for software developer jobs
         </Heading>
       </Flex>

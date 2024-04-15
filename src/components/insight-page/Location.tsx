@@ -50,10 +50,13 @@ export default function Location() {
   });
 
   return (
-    <VStack px="56" align="start" py="4" gap="2">
+    <VStack px={{ base: 2, sm: 8, md: 24, xl: 56 }} align="start" gap="4">
       <Heading>Location</Heading>
 
-      <Flex flexDirection="row" gap="5">
+      <Flex
+        flexDirection={{ base: "column", sm: "column", md: "row", xl: "row" }}
+        gap="5"
+      >
         <Heading as="h4" size="md" flexGrow="1" flexShrink="0">
           Job frequency by location
         </Heading>

@@ -141,10 +141,17 @@ export default function Technologies() {
   }
 
   return (
-    <Flex flexDirection="column" px="56" py="4" gap="4">
+    <Flex
+      flexDirection="column"
+      px={{ base: 2, sm: 8, md: 24, xl: 56 }}
+      gap="4"
+    >
       <Heading>Technologies</Heading>
 
-      <Flex flexDirection="row" gap="5">
+      <Flex
+        flexDirection={{ base: "column", sm: "column", md: "row", xl: "row" }}
+        gap="5"
+      >
         <Heading as="h4" size="md" flexGrow="1" flexShrink="0">
           Programming Languages
         </Heading>
@@ -180,7 +187,10 @@ export default function Technologies() {
         )}
       </Flex>
 
-      <Flex flexDirection="row" gap="5">
+      <Flex
+        flexDirection={{ base: "column", sm: "column", md: "row", xl: "row" }}
+        gap="5"
+      >
         <Heading as="h4" size="md" flexGrow="1" flexShrink="0">
           Databases
         </Heading>
@@ -216,7 +226,10 @@ export default function Technologies() {
         )}
       </Flex>
 
-      <Flex flexDirection="row" gap="5">
+      <Flex
+        flexDirection={{ base: "column", sm: "column", md: "row", xl: "row" }}
+        gap="5"
+      >
         <Heading as="h4" size="md" flexGrow="1" flexShrink="0">
           Frameworks and Libraries
         </Heading>
@@ -252,7 +265,10 @@ export default function Technologies() {
         )}
       </Flex>
 
-      <Flex flexDirection="row" gap="5">
+      <Flex
+        flexDirection={{ base: "column", sm: "column", md: "row", xl: "row" }}
+        gap="5"
+      >
         <Heading as="h4" size="md" flexGrow="1" flexShrink="0">
           Cloud Platforms
         </Heading>
@@ -288,7 +304,10 @@ export default function Technologies() {
         )}
       </Flex>
 
-      <Flex flexDirection="row" gap="5">
+      <Flex
+        flexDirection={{ base: "column", sm: "column", md: "row", xl: "row" }}
+        gap="5"
+      >
         <Heading as="h4" size="md" flexGrow="1" flexShrink="0">
           Tools
         </Heading>

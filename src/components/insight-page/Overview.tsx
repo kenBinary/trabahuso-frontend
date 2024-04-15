@@ -23,6 +23,9 @@ import {
   PopoverArrow,
   PopoverCloseButton,
   Button,
+  SimpleGrid,
+  useBreakpointValue,
+  PlacementWithLogical,
 } from "@chakra-ui/react";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import useFetchOnMount from "../../hooks/useFetch";
@@ -40,7 +43,6 @@ function StatCard({ statLabel, statNumber, statHelpText }: StatCardProps) {
       borderColor="brand.accent"
       p="4"
       borderRadius="base"
-      width="50%"
     >
       <StatLabel fontSize="md">{statLabel}</StatLabel>
       <StatNumber color="brand.accent-200">{statNumber}</StatNumber>
@@ -85,6 +87,16 @@ interface JobData {
   count: number;
 }
 export default function Overview() {
+  const stepperOrientation = useBreakpointValue(
+    { base: "vertical", sm: "vertical", md: "horizontal", xl: "horizontal" },
+    { ssr: false }
+  );
+
+  const popOverPlacement = useBreakpointValue<PlacementWithLogical>(
+    { base: "top-start", sm: "top-end", md: "top-start", xl: "top" },
+    { ssr: false }
+  );
+
   const [{ isLoading, isError, data }] = useFetchOnMount<JobData>(
     "http://localhost:3000/api/jobs",
     {
@@ -127,10 +139,20 @@ export default function Overview() {
   }
 
   return (
-    <Flex flexDirection="column" px="56" py="4" gap="6">
+    <Flex
+      flexDirection="column"
+      px={{ base: 2, sm: 8, md: 24, xl: 56 }}
+      gap="6"
+    >
       <Heading>Methodology</Heading>
 
-      <Stepper size="lg" index={steps.length}>
+      <Stepper
+        size={{ base: "sm", sm: "sm", md: "md", xl: "lg" }}
+        orientation={
+          stepperOrientation === "vertical" ? "vertical" : "horizontal"
+        }
+        index={steps.length}
+      >
         {steps.map((step, index) => (
           <Step key={index}>
             <StepIndicator>
@@ -145,7 +167,7 @@ export default function Overview() {
               <StepTitle>{step.title}</StepTitle>
               <StepDescription as="div">
                 <Flex align="center" gap="1" cursor="pointer">
-                  <Popover placement="top">
+                  <Popover placement={popOverPlacement}>
                     <PopoverTrigger>
                       <Button colorScheme="blue" size="xs">
                         {step.description}
@@ -175,7 +197,7 @@ export default function Overview() {
       </Stepper>
 
       <Heading>Jobs Scraped Overview</Heading>
-      <Flex gap="4">
+      <SimpleGrid gap="4" columns={{ base: 1, sm: 1, md: 2, xl: 4 }}>
         <StatCard
           statLabel="Total Jobs Scraped"
           statNumber={isLoading ? "...." : totalJobsScraped.toString()}
@@ -196,7 +218,7 @@ export default function Overview() {
           statLabel="Last Scraped"
           statNumber={isLoading ? "...." : lastDateScrape}
         ></StatCard>
-      </Flex>
+      </SimpleGrid>
 
       <Callout title="Disclaimer" type="error">
         The data may not fully represent the actual software developer job
