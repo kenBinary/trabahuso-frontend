@@ -11,7 +11,7 @@ export default function Footer() {
       py="2"
       bgColor="brand.accent"
     >
-      <Link href="https://github.com/kenBinary" target="_blank">
+      <Link href="https://github.com/kenBinary/trabahuso-frontend" target="_blank">
         <Icon boxSize="8" as={FaGithub} />
       </Link>
     </Flex>
