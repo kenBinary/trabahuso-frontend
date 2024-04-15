@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 type Action<T> =
   | { type: "FETCH_INIT" }
   | { type: "FETCH_FAIL" }
@@ -27,9 +27,10 @@ function fetchDataReducer<T>(
 }
 
 export default function useFetchOnMount<T>(
-  url: string,
+  initialUrl: string,
   initialData: T
-): FetchState<T> {
+): [FetchState<T>, (newUrl: string) => void] {
+  const [url, setUrl] = useState(initialUrl);
   const [state, dispatch] = useReducer(fetchDataReducer<T>, {
     isLoading: true,
     isError: false,
@@ -64,7 +65,6 @@ export default function useFetchOnMount<T>(
     return () => {
       didCancel = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  return state;
+  }, [url]);
+  return [state, setUrl];
 }
