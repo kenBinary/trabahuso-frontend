@@ -25,7 +25,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { IoIosInformationCircleOutline } from "react-icons/io";
-import useFetchOnMount from "../../hooks/useFetchOnMount";
+import useFetchOnMount from "../../hooks/useFetch";
 import Callout from "../Callout";
 
 interface StatCardProps {
@@ -85,7 +85,7 @@ interface JobData {
   count: number;
 }
 export default function Overview() {
-  const { isLoading, isError, data } = useFetchOnMount<JobData>(
+  const [{ isLoading, isError, data }] = useFetchOnMount<JobData>(
     "http://localhost:3000/api/jobs",
     {
       data: [],

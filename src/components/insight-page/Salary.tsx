@@ -8,7 +8,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { SimpleBarChart } from "../charts";
-import useFetchOnMount from "../../hooks/useFetchOnMount";
+import useFetchOnMount from "../../hooks/useFetch";
 import { setBarChartHeight } from "../../util/elementHeightUtil";
 
 interface SalaryRange {
@@ -22,7 +22,7 @@ interface SalaryData {
 
 export default function Salary() {
   const url = "http://localhost:3000/api/job-salaries";
-  const { isLoading, isError, data } = useFetchOnMount<SalaryData>(url, {
+  const [{ isLoading, isError, data }] = useFetchOnMount<SalaryData>(url, {
     undisclosed: 0,
     disclosed: [],
   });
@@ -30,6 +30,12 @@ export default function Salary() {
   return (
     <VStack align="start" px="56" py="4">
       <Heading>Salary</Heading>
+
+      <Flex flexDirection="row" gap="5">
+        <Heading as="h4" size="md" flexGrow="1" flexShrink="0">
+          Salary Range Distribution for software developer jobs
+        </Heading>
+      </Flex>
 
       <Flex
         w="full"

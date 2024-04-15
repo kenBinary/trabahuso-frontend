@@ -1,12 +1,20 @@
-import { Heading, VStack, Spinner, Flex } from "@chakra-ui/react";
+import {
+  Heading,
+  VStack,
+  Spinner,
+  Flex,
+  FormControl,
+  FormLabel,
+  Switch,
+} from "@chakra-ui/react";
 import { SimpleBarChart } from "../charts";
-import useFetchOnMount from "../../hooks/useFetchOnMount";
+import useFetchOnMount from "../../hooks/useFetch";
 import { setBarChartHeight } from "../../util/elementHeightUtil";
 
 interface JobLocation {
   location: string;
-  jobCount: number;
-  medianSalary: number;
+  "job count": number;
+  "median salary": number;
 }
 
 interface JobLocations {
@@ -16,24 +24,51 @@ interface JobLocations {
 }
 
 export default function Location() {
-  const url = "http://localhost:3000/api/job-locations";
-  const { isLoading, isError, data } = useFetchOnMount<JobLocations>(url, {
-    data: [],
-    limitCount: 0,
-    totalCount: 0,
-  });
+  const initialUrl =
+    "http://localhost:3000/api/job-locations?limit=10&sort=jobCount&order=desc";
+  const [{ isLoading, isError, data }, doFetch] = useFetchOnMount<JobLocations>(
+    initialUrl,
+    {
+      data: [],
+      limitCount: 0,
+      totalCount: 0,
+    }
+  );
+
+  function handleShowData(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.checked) {
+      doFetch(
+        "http://localhost:3000/api/job-locations?&sort=jobCount&order=desc"
+      );
+    } else {
+      doFetch(initialUrl);
+    }
+  }
 
   const medianSalaryList = data.data.filter((job) => {
-    return job.medianSalary !== null;
+    return job["median salary"] !== null && Number(job["median salary"]) !== 0;
   });
 
   return (
     <VStack px="56" align="start" py="4" gap="2">
       <Heading>Location</Heading>
 
-      <Heading as="h4" size="md">
-        Job frequency by location
-      </Heading>
+      <Flex flexDirection="row" gap="5">
+        <Heading as="h4" size="md" flexGrow="1" flexShrink="0">
+          Job frequency by location
+        </Heading>
+        <FormControl
+          display="flex"
+          alignItems="center"
+          flexGrow="1"
+          flexShrink="0"
+        >
+          <FormLabel htmlFor="show-data" mb="0">
+            Show Complete Data
+          </FormLabel>
+          <Switch id="show-data" colorScheme="cyan" onChange={handleShowData} />
+        </FormControl>
+      </Flex>
 
       <Flex
         w="full"
@@ -54,7 +89,7 @@ export default function Location() {
         ) : (
           <SimpleBarChart
             data={data.data}
-            barDataKey="jobCount"
+            barDataKey="job count"
           ></SimpleBarChart>
         )}
       </Flex>
@@ -82,7 +117,7 @@ export default function Location() {
         ) : (
           <SimpleBarChart
             data={medianSalaryList}
-            barDataKey="medianSalary"
+            barDataKey="median salary"
           ></SimpleBarChart>
         )}
       </Flex>
