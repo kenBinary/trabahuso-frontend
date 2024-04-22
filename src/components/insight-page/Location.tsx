@@ -38,7 +38,7 @@ export default function Location() {
   function handleShowData(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
       doFetch(
-        "http://localhost:3000/api/job-locations?&sort=jobCount&order=desc"
+        "https://trabahuso-api.onrender.com/api/job-locations?&sort=jobCount&order=desc"
       );
     } else {
       doFetch(initialUrl);
