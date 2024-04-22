@@ -24,7 +24,7 @@ export default function Technologies() {
     { isLoading: plLoading, isError: plError, data: plData },
     fetchProgrammingLanguages,
   ] = useFetchOnMount<TechStackData>(
-    "http://localhost:3000/api/tech-stack?category=programming_languages&order=desc&limit=10",
+    "https://trabahuso-api.onrender.com/api/tech-stack?category=programming_languages&order=desc&limit=10",
     {
       data: [],
       limitCount: 0,
@@ -35,11 +35,11 @@ export default function Technologies() {
   function showAllProgrammingLanguage(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
       fetchProgrammingLanguages(
-        "http://localhost:3000/api/tech-stack?category=programming_languages&order=desc"
+        "https://trabahuso-api.onrender.com/api/tech-stack?category=programming_languages&order=desc"
       );
     } else {
       fetchProgrammingLanguages(
-        "http://localhost:3000/api/tech-stack?category=programming_languages&order=desc&limit=10"
+        "https://trabahuso-api.onrender.com/api/tech-stack?category=programming_languages&order=desc&limit=10"
       );
     }
   }
@@ -48,7 +48,7 @@ export default function Technologies() {
     { isLoading: dbLoading, isError: dbError, data: dbData },
     fetchDatabases,
   ] = useFetchOnMount<TechStackData>(
-    "http://localhost:3000/api/tech-stack?category=databases&order=desc&limit=10",
+    "https://trabahuso-api.onrender.com/api/tech-stack?category=databases&order=desc&limit=10",
     {
       data: [],
       limitCount: 0,
@@ -59,11 +59,11 @@ export default function Technologies() {
   function showAllDatabases(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
       fetchDatabases(
-        "http://localhost:3000/api/tech-stack?category=databases&order=desc"
+        "https://trabahuso-api.onrender.com/api/tech-stack?category=databases&order=desc"
       );
     } else {
       fetchDatabases(
-        "http://localhost:3000/api/tech-stack?category=databases&order=desc&limit=10"
+        "https://trabahuso-api.onrender.com/api/tech-stack?category=databases&order=desc&limit=10"
       );
     }
   }
@@ -72,7 +72,7 @@ export default function Technologies() {
     { isLoading: flLoading, isError: flError, data: flData },
     fetchFrameAndLib,
   ] = useFetchOnMount<TechStackData>(
-    "http://localhost:3000/api/tech-stack?category=frameworks_and_libraries&order=desc&limit=10",
+    "https://trabahuso-api.onrender.com/api/tech-stack?category=frameworks_and_libraries&order=desc&limit=10",
     {
       data: [],
       limitCount: 0,
@@ -83,11 +83,11 @@ export default function Technologies() {
   function showAllFrameAndLibs(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
       fetchFrameAndLib(
-        "http://localhost:3000/api/tech-stack?category=frameworks_and_libraries&order=desc"
+        "https://trabahuso-api.onrender.com/api/tech-stack?category=frameworks_and_libraries&order=desc"
       );
     } else {
       fetchFrameAndLib(
-        "http://localhost:3000/api/tech-stack?category=frameworks_and_libraries&order=desc&limit=10"
+        "https://trabahuso-api.onrender.com/api/tech-stack?category=frameworks_and_libraries&order=desc&limit=10"
       );
     }
   }
@@ -96,7 +96,7 @@ export default function Technologies() {
     { isLoading: clpLoading, isError: clpError, data: clpData },
     fetchCloudPlat,
   ] = useFetchOnMount<TechStackData>(
-    "http://localhost:3000/api/tech-stack?category=cloud_platforms&order=desc&limit=10",
+    "https://trabahuso-api.onrender.com/api/tech-stack?category=cloud_platforms&order=desc&limit=10",
     {
       data: [],
       limitCount: 0,
@@ -107,11 +107,11 @@ export default function Technologies() {
   function showAllCloudPlat(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
       fetchCloudPlat(
-        "http://localhost:3000/api/tech-stack?category=cloud_platforms&order=desc"
+        "https://trabahuso-api.onrender.com/api/tech-stack?category=cloud_platforms&order=desc"
       );
     } else {
       fetchCloudPlat(
-        "http://localhost:3000/api/tech-stack?category=cloud_platforms&order=desc&limit=10"
+        "https://trabahuso-api.onrender.com/api/tech-stack?category=cloud_platforms&order=desc&limit=10"
       );
     }
   }
@@ -120,7 +120,7 @@ export default function Technologies() {
     { isLoading: tlsLoading, isError: tlsError, data: tlsData },
     fetchTools,
   ] = useFetchOnMount<TechStackData>(
-    "http://localhost:3000/api/tech-stack?category=tools&order=desc&limit=10",
+    "https://trabahuso-api.onrender.com/api/tech-stack?category=tools&order=desc&limit=10",
     {
       data: [],
       limitCount: 0,
@@ -131,11 +131,11 @@ export default function Technologies() {
   function showAllTools(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
       fetchTools(
-        "http://localhost:3000/api/tech-stack?category=tools&order=desc"
+        "https://trabahuso-api.onrender.com/api/tech-stack?category=tools&order=desc"
       );
     } else {
       fetchTools(
-        "http://localhost:3000/api/tech-stack?category=tools&order=desc&limit=10"
+        "https://trabahuso-api.onrender.com/api/tech-stack?category=tools&order=desc&limit=10"
       );
     }
   }

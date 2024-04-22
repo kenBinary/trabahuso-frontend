@@ -25,7 +25,7 @@ interface JobLocations {
 
 export default function Location() {
   const initialUrl =
-    "http://localhost:3000/api/job-locations?limit=10&sort=jobCount&order=desc";
+    "https://trabahuso-api.onrender.com/api/job-locations?limit=10&sort=jobCount&order=desc";
   const [{ isLoading, isError, data }, doFetch] = useFetchOnMount<JobLocations>(
     initialUrl,
     {
