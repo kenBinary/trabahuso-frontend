@@ -66,10 +66,14 @@ export default function Location() {
           flexGrow="1"
           flexShrink="0"
         >
-          <FormLabel htmlFor="show-data" mb="0">
-            Show Complete Data
+          <FormLabel htmlFor="complete-job-frequency" mb="0">
+            Show Complete job frequency
           </FormLabel>
-          <Switch id="show-data" colorScheme="cyan" onChange={handleShowData} />
+          <Switch
+            id="complete-job-frequency"
+            colorScheme="cyan"
+            onChange={handleShowData}
+          />
         </FormControl>
       </Flex>
 

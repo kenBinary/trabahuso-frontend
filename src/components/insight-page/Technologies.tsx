@@ -156,11 +156,11 @@ export default function Technologies() {
           Programming Languages
         </Heading>
         <FormControl display="flex" alignItems="center">
-          <FormLabel htmlFor="show-data" mb="0">
-            Show Complete Data
+          <FormLabel htmlFor="show-programming-languages" mb="0">
+            Show Complete programming languages
           </FormLabel>
           <Switch
-            id="show-data"
+            id="show-programming-languages"
             colorScheme="cyan"
             onChange={showAllProgrammingLanguage}
           />
@@ -195,11 +195,11 @@ export default function Technologies() {
           Databases
         </Heading>
         <FormControl display="flex" alignItems="center">
-          <FormLabel htmlFor="show-data" mb="0">
-            Show Complete Data
+          <FormLabel htmlFor="show-databases" mb="0">
+            Show Complete databases
           </FormLabel>
           <Switch
-            id="show-data"
+            id="show-databases"
             colorScheme="cyan"
             onChange={showAllDatabases}
           />
@@ -234,11 +234,11 @@ export default function Technologies() {
           Frameworks and Libraries
         </Heading>
         <FormControl display="flex" alignItems="center">
-          <FormLabel htmlFor="show-data" mb="0">
-            Show Complete Data
+          <FormLabel htmlFor="show-frmwkrs-libs" mb="0">
+            Show Complete frameworks & libraries
           </FormLabel>
           <Switch
-            id="show-data"
+            id="show-frmwkrs-libs"
             colorScheme="cyan"
             onChange={showAllFrameAndLibs}
           />
@@ -273,11 +273,11 @@ export default function Technologies() {
           Cloud Platforms
         </Heading>
         <FormControl display="flex" alignItems="center">
-          <FormLabel htmlFor="show-data" mb="0">
-            Show Complete Data
+          <FormLabel htmlFor="show-cloud-platforms" mb="0">
+            Show Complete cloud platforms
           </FormLabel>
           <Switch
-            id="show-data"
+            id="show-cloud-platforms"
             colorScheme="cyan"
             onChange={showAllCloudPlat}
           />
@@ -312,10 +312,10 @@ export default function Technologies() {
           Tools
         </Heading>
         <FormControl display="flex" alignItems="center">
-          <FormLabel htmlFor="show-data" mb="0">
-            Show Complete Data
+          <FormLabel htmlFor="show-tools" mb="0">
+            Show Complete tools
           </FormLabel>
-          <Switch id="show-data" colorScheme="cyan" onChange={showAllTools} />
+          <Switch id="show-tools" colorScheme="cyan" onChange={showAllTools} />
         </FormControl>
       </Flex>
       <Flex
