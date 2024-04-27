@@ -25,7 +25,7 @@ interface JobLocations {
 
 export default function Location() {
   const initialUrl =
-    "https://trabahuso-api.onrender.com/api/job-locations?limit=10&sort=jobCount&order=desc";
+    import.meta.env.VITE_JOB_FREQUENCY_LIMIT_ENDPOINT;
   const [{ isLoading, isError, data }, doFetch] = useFetchOnMount<JobLocations>(
     initialUrl,
     {
@@ -38,7 +38,7 @@ export default function Location() {
   function handleShowData(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
       doFetch(
-        "https://trabahuso-api.onrender.com/api/job-locations?&sort=jobCount&order=desc"
+        import.meta.env.VITE_JOB_FREQUENCY_ENDPOINT
       );
     } else {
       doFetch(initialUrl);

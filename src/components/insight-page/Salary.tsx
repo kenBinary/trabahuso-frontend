@@ -21,7 +21,7 @@ interface SalaryData {
 }
 
 export default function Salary() {
-  const url = "https://trabahuso-api.onrender.com/api/job-salaries";
+  const url = import.meta.env.VITE_SALARY_RANGE_ENDPOINT;
   const [{ isLoading, isError, data }] = useFetchOnMount<SalaryData>(url, {
     undisclosed: 0,
     disclosed: [],

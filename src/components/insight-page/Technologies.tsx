@@ -24,7 +24,7 @@ export default function Technologies() {
     { isLoading: plLoading, isError: plError, data: plData },
     fetchProgrammingLanguages,
   ] = useFetchOnMount<TechStackData>(
-    "https://trabahuso-api.onrender.com/api/tech-stack?category=programming_languages&order=desc&limit=10",
+    import.meta.env.VITE_PROG_LANG_LIMIT_ENDPOINT,
     {
       data: [],
       limitCount: 0,
@@ -34,37 +34,26 @@ export default function Technologies() {
 
   function showAllProgrammingLanguage(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
-      fetchProgrammingLanguages(
-        "https://trabahuso-api.onrender.com/api/tech-stack?category=programming_languages&order=desc"
-      );
+      fetchProgrammingLanguages(import.meta.env.VITE_PROG_LANG_ENDPOINT);
     } else {
-      fetchProgrammingLanguages(
-        "https://trabahuso-api.onrender.com/api/tech-stack?category=programming_languages&order=desc&limit=10"
-      );
+      fetchProgrammingLanguages(import.meta.env.VITE_PROG_LANG_LIMIT_ENDPOINT);
     }
   }
 
   const [
     { isLoading: dbLoading, isError: dbError, data: dbData },
     fetchDatabases,
-  ] = useFetchOnMount<TechStackData>(
-    "https://trabahuso-api.onrender.com/api/tech-stack?category=databases&order=desc&limit=10",
-    {
-      data: [],
-      limitCount: 0,
-      totalCount: 0,
-    }
-  );
+  ] = useFetchOnMount<TechStackData>(import.meta.env.VITE_DB_LIMIT_ENDPOINT, {
+    data: [],
+    limitCount: 0,
+    totalCount: 0,
+  });
 
   function showAllDatabases(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
-      fetchDatabases(
-        "https://trabahuso-api.onrender.com/api/tech-stack?category=databases&order=desc"
-      );
+      fetchDatabases(import.meta.env.VITE_DB_ENDPOINT);
     } else {
-      fetchDatabases(
-        "https://trabahuso-api.onrender.com/api/tech-stack?category=databases&order=desc&limit=10"
-      );
+      fetchDatabases(import.meta.env.VITE_DB_LIMIT_ENDPOINT);
     }
   }
 
@@ -72,7 +61,7 @@ export default function Technologies() {
     { isLoading: flLoading, isError: flError, data: flData },
     fetchFrameAndLib,
   ] = useFetchOnMount<TechStackData>(
-    "https://trabahuso-api.onrender.com/api/tech-stack?category=frameworks_and_libraries&order=desc&limit=10",
+    import.meta.env.VITE_FRAME_AND_LIBS_LIMIT_ENDPOINT,
     {
       data: [],
       limitCount: 0,
@@ -82,13 +71,9 @@ export default function Technologies() {
 
   function showAllFrameAndLibs(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
-      fetchFrameAndLib(
-        "https://trabahuso-api.onrender.com/api/tech-stack?category=frameworks_and_libraries&order=desc"
-      );
+      fetchFrameAndLib(import.meta.env.VITE_FRAME_AND_LIBS_ENDPOINT);
     } else {
-      fetchFrameAndLib(
-        "https://trabahuso-api.onrender.com/api/tech-stack?category=frameworks_and_libraries&order=desc&limit=10"
-      );
+      fetchFrameAndLib(import.meta.env.VITE_FRAME_AND_LIBS_LIMIT_ENDPOINT);
     }
   }
 
@@ -96,7 +81,7 @@ export default function Technologies() {
     { isLoading: clpLoading, isError: clpError, data: clpData },
     fetchCloudPlat,
   ] = useFetchOnMount<TechStackData>(
-    "https://trabahuso-api.onrender.com/api/tech-stack?category=cloud_platforms&order=desc&limit=10",
+    import.meta.env.VITE_CLOUD_PLAT_LIMIT_ENDPOINT,
     {
       data: [],
       limitCount: 0,
@@ -106,13 +91,9 @@ export default function Technologies() {
 
   function showAllCloudPlat(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
-      fetchCloudPlat(
-        "https://trabahuso-api.onrender.com/api/tech-stack?category=cloud_platforms&order=desc"
-      );
+      fetchCloudPlat(import.meta.env.VITE_CLOUD_PLAT_ENDPOINT);
     } else {
-      fetchCloudPlat(
-        "https://trabahuso-api.onrender.com/api/tech-stack?category=cloud_platforms&order=desc&limit=10"
-      );
+      fetchCloudPlat(import.meta.env.VITE_CLOUD_PLAT_LIMIT_ENDPOINT);
     }
   }
 
@@ -120,7 +101,7 @@ export default function Technologies() {
     { isLoading: tlsLoading, isError: tlsError, data: tlsData },
     fetchTools,
   ] = useFetchOnMount<TechStackData>(
-    "https://trabahuso-api.onrender.com/api/tech-stack?category=tools&order=desc&limit=10",
+    import.meta.env.VITE_TOOLS_LIMIT_ENDPOINT,
     {
       data: [],
       limitCount: 0,
@@ -130,13 +111,9 @@ export default function Technologies() {
 
   function showAllTools(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
-      fetchTools(
-        "https://trabahuso-api.onrender.com/api/tech-stack?category=tools&order=desc"
-      );
+      fetchTools(import.meta.env.VITE_TOOLS_ENDPOINT);
     } else {
-      fetchTools(
-        "https://trabahuso-api.onrender.com/api/tech-stack?category=tools&order=desc&limit=10"
-      );
+      fetchTools(import.meta.env.VITE_TOOLS_LIMIT_ENDPOINT);
     }
   }
 

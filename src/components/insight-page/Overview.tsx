@@ -98,7 +98,7 @@ export default function Overview() {
   );
 
   const [{ isLoading, isError, data }] = useFetchOnMount<JobData>(
-    "https://trabahuso-api.onrender.com/api/jobs",
+    import.meta.env.VITE_JOBS_ENDPOINT,
     {
       data: [],
       count: 0,
