@@ -26,16 +26,33 @@ function fetchDataReducer<T>(
   }
 }
 
-export default function useFetchOnMount<T>(
+export default function useFetch<T>(
   initialUrl: string,
-  initialData: T
-): [FetchState<T>, (newUrl: string) => void] {
-  const [url, setUrl] = useState(initialUrl);
+  initialData: T,
+  paramsObj?: Record<string, string>
+): [
+  FetchState<T>,
+  (newUrl: string, paramsObj?: Record<string, string>) => void
+] {
+  let queryString = "";
+  if (paramsObj) {
+    queryString = new URLSearchParams(paramsObj).toString();
+  }
+
+  const [url, setUrl] = useState(`${initialUrl}?${queryString}`);
   const [state, dispatch] = useReducer(fetchDataReducer<T>, {
     isLoading: true,
     isError: false,
     data: initialData,
   });
+
+  function fetchNewUrl(url: string, paramsObj?: Record<string, string>) {
+    let queryString = "";
+    if (paramsObj) {
+      queryString = new URLSearchParams(paramsObj).toString();
+    }
+    setUrl(`${url}?${queryString}`);
+  }
 
   useEffect(() => {
     let didCancel = false;
@@ -66,5 +83,5 @@ export default function useFetchOnMount<T>(
       didCancel = true;
     };
   }, [url]);
-  return [state, setUrl];
+  return [state, fetchNewUrl];
 }
