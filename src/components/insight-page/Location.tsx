@@ -8,7 +8,7 @@ import {
   Switch,
 } from "@chakra-ui/react";
 import { SimpleBarChart } from "../charts";
-import useFetchOnMount from "../../hooks/useFetch";
+import useFetch from "../../hooks/useFetch";
 import { setBarChartHeight } from "../../util/elementHeightUtil";
 
 interface JobLocation {
@@ -24,24 +24,33 @@ interface JobLocations {
 }
 
 export default function Location() {
-  const initialUrl =
-    import.meta.env.VITE_JOB_FREQUENCY_LIMIT_ENDPOINT;
-  const [{ isLoading, isError, data }, doFetch] = useFetchOnMount<JobLocations>(
-    initialUrl,
+  const jobLocationUrl = import.meta.env.VITE_JOB_LOCATIONS_ENDPOINT;
+  const [{ isLoading, isError, data }, doFetch] = useFetch<JobLocations>(
+    jobLocationUrl,
     {
       data: [],
       limitCount: 0,
       totalCount: 0,
+    },
+    {
+      limit: "10",
+      sort: "jobCount",
+      order: "desc",
     }
   );
 
   function handleShowData(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
-      doFetch(
-        import.meta.env.VITE_JOB_FREQUENCY_ENDPOINT
-      );
+      doFetch(jobLocationUrl, {
+        sort: "jobCount",
+        order: "desc",
+      });
     } else {
-      doFetch(initialUrl);
+      doFetch(jobLocationUrl, {
+        limit: "10",
+        sort: "jobCount",
+        order: "desc",
+      });
     }
   }
 

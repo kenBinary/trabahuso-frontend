@@ -28,7 +28,7 @@ import {
   PlacementWithLogical,
 } from "@chakra-ui/react";
 import { IoIosInformationCircleOutline } from "react-icons/io";
-import useFetchOnMount from "../../hooks/useFetch";
+import useFetch from "../../hooks/useFetch";
 import Callout from "../Callout";
 
 interface StatCardProps {
@@ -97,13 +97,12 @@ export default function Overview() {
     { ssr: false }
   );
 
-  const [{ isLoading, isError, data }] = useFetchOnMount<JobData>(
-    import.meta.env.VITE_JOBS_ENDPOINT,
-    {
-      data: [],
-      count: 0,
-    }
-  );
+  const url = import.meta.env.VITE_JOBS_ENDPOINT;
+  const [{ isLoading, isError, data }] = useFetch<JobData>(url, {
+    data: [],
+    count: 0,
+  });
+
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
 

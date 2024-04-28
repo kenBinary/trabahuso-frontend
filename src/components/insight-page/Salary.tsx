@@ -8,7 +8,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { SimpleBarChart } from "../charts";
-import useFetchOnMount from "../../hooks/useFetch";
+import useFetch from "../../hooks/useFetch";
 import { setBarChartHeight } from "../../util/elementHeightUtil";
 
 interface SalaryRange {
@@ -22,7 +22,7 @@ interface SalaryData {
 
 export default function Salary() {
   const url = import.meta.env.VITE_SALARY_RANGE_ENDPOINT;
-  const [{ isLoading, isError, data }] = useFetchOnMount<SalaryData>(url, {
+  const [{ isLoading, isError, data }] = useFetch<SalaryData>(url, {
     undisclosed: 0,
     disclosed: [],
   });

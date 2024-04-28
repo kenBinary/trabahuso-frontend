@@ -7,7 +7,7 @@ import {
   Switch,
 } from "@chakra-ui/react";
 import { SimpleBarChart } from "../charts";
-import useFetchOnMount from "../../hooks/useFetch";
+import useFetch from "../../hooks/useFetch";
 import { setBarChartHeight } from "../../util/elementHeightUtil";
 
 interface Tech {
@@ -20,100 +20,165 @@ interface TechStackData {
   totalCount: number;
 }
 export default function Technologies() {
+  const url = import.meta.env.VITE_TECH_STACK_ENDPOINT;
+
   const [
     { isLoading: plLoading, isError: plError, data: plData },
     fetchProgrammingLanguages,
-  ] = useFetchOnMount<TechStackData>(
-    import.meta.env.VITE_PROG_LANG_LIMIT_ENDPOINT,
+  ] = useFetch<TechStackData>(
+    url,
     {
       data: [],
       limitCount: 0,
       totalCount: 0,
+    },
+    {
+      order: "desc",
+      category: "programming_languages",
+      limit: "10",
     }
   );
 
   function showAllProgrammingLanguage(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
-      fetchProgrammingLanguages(import.meta.env.VITE_PROG_LANG_ENDPOINT);
+      fetchProgrammingLanguages(url, {
+        order: "desc",
+        category: "programming_languages",
+      });
     } else {
-      fetchProgrammingLanguages(import.meta.env.VITE_PROG_LANG_LIMIT_ENDPOINT);
+      fetchProgrammingLanguages(url, {
+        order: "desc",
+        category: "programming_languages",
+        limit: "10",
+      });
     }
   }
 
   const [
     { isLoading: dbLoading, isError: dbError, data: dbData },
     fetchDatabases,
-  ] = useFetchOnMount<TechStackData>(import.meta.env.VITE_DB_LIMIT_ENDPOINT, {
-    data: [],
-    limitCount: 0,
-    totalCount: 0,
-  });
+  ] = useFetch<TechStackData>(
+    url,
+    {
+      data: [],
+      limitCount: 0,
+      totalCount: 0,
+    },
+    {
+      order: "desc",
+      category: "databases",
+      limit: "10",
+    }
+  );
 
   function showAllDatabases(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
-      fetchDatabases(import.meta.env.VITE_DB_ENDPOINT);
+      fetchDatabases(url, {
+        order: "desc",
+        category: "databases",
+      });
     } else {
-      fetchDatabases(import.meta.env.VITE_DB_LIMIT_ENDPOINT);
+      fetchDatabases(url, {
+        order: "desc",
+        category: "databases",
+        limit: "10",
+      });
     }
   }
 
   const [
     { isLoading: flLoading, isError: flError, data: flData },
     fetchFrameAndLib,
-  ] = useFetchOnMount<TechStackData>(
-    import.meta.env.VITE_FRAME_AND_LIBS_LIMIT_ENDPOINT,
+  ] = useFetch<TechStackData>(
+    url,
     {
       data: [],
       limitCount: 0,
       totalCount: 0,
+    },
+    {
+      order: "desc",
+      category: "frameworks_and_libraries",
+      limit: "10",
     }
   );
 
   function showAllFrameAndLibs(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
-      fetchFrameAndLib(import.meta.env.VITE_FRAME_AND_LIBS_ENDPOINT);
+      fetchFrameAndLib(url, {
+        order: "desc",
+        category: "frameworks_and_libraries",
+      });
     } else {
-      fetchFrameAndLib(import.meta.env.VITE_FRAME_AND_LIBS_LIMIT_ENDPOINT);
+      fetchFrameAndLib(url, {
+        order: "desc",
+        category: "frameworks_and_libraries",
+        limit: "10",
+      });
     }
   }
 
   const [
     { isLoading: clpLoading, isError: clpError, data: clpData },
     fetchCloudPlat,
-  ] = useFetchOnMount<TechStackData>(
-    import.meta.env.VITE_CLOUD_PLAT_LIMIT_ENDPOINT,
+  ] = useFetch<TechStackData>(
+    url,
     {
       data: [],
       limitCount: 0,
       totalCount: 0,
+    },
+    {
+      order: "desc",
+      category: "cloud_platforms",
+      limit: "10",
     }
   );
 
   function showAllCloudPlat(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
-      fetchCloudPlat(import.meta.env.VITE_CLOUD_PLAT_ENDPOINT);
+      fetchCloudPlat(url, {
+        order: "desc",
+        category: "cloud_platforms",
+      });
     } else {
-      fetchCloudPlat(import.meta.env.VITE_CLOUD_PLAT_LIMIT_ENDPOINT);
+      fetchCloudPlat(url, {
+        order: "desc",
+        category: "cloud_platforms",
+        limit: "10",
+      });
     }
   }
 
   const [
     { isLoading: tlsLoading, isError: tlsError, data: tlsData },
     fetchTools,
-  ] = useFetchOnMount<TechStackData>(
-    import.meta.env.VITE_TOOLS_LIMIT_ENDPOINT,
+  ] = useFetch<TechStackData>(
+    url,
     {
       data: [],
       limitCount: 0,
       totalCount: 0,
+    },
+    {
+      order: "desc",
+      category: "tools",
+      limit: "10",
     }
   );
 
   function showAllTools(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
-      fetchTools(import.meta.env.VITE_TOOLS_ENDPOINT);
+      fetchTools(url, {
+        order: "desc",
+        category: "tools",
+      });
     } else {
-      fetchTools(import.meta.env.VITE_TOOLS_LIMIT_ENDPOINT);
+      fetchTools(url, {
+        order: "desc",
+        category: "tools",
+        limit: "10",
+      });
     }
   }
 
