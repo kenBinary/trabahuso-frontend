@@ -26,6 +26,7 @@ import {
   SimpleGrid,
   useBreakpointValue,
   PlacementWithLogical,
+  Text,
 } from "@chakra-ui/react";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import useFetch from "../../hooks/useFetch";
@@ -218,6 +219,17 @@ export default function Overview() {
           statNumber={isLoading ? "...." : lastDateScrape}
         ></StatCard>
       </SimpleGrid>
+
+      <Callout title="INITIAL DATA LOADING" type="inform">
+        <Text
+          fontSize={{ base: "2xl", sm: "2xl", md: "4xl", xl: "4xl" }}
+          fontWeight="bold"
+          textAlign="center"
+          color="blue.900"
+        >
+          INITIAL LOADING OF DATA MAY TAKE AT AT MOST 1 MINUTE.
+        </Text>
+      </Callout>
 
       <Callout title="Disclaimer" type="error">
         The data may not fully represent the actual software developer job
