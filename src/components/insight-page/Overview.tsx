@@ -227,7 +227,7 @@ export default function Overview() {
           textAlign="center"
           color="blue.900"
         >
-          INITIAL LOADING OF DATA MAY TAKE AT AT MOST 1 MINUTE.
+          INITIAL LOADING OF DATA MAY TAKE AT MOST 1 MINUTE.
         </Text>
       </Callout>
 
