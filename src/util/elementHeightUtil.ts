@@ -1,4 +1,6 @@
-export function setBarChartHeight(barCount: number): string {
+export function setBarChartHeight(barCount?: number): string {
+  if (!barCount) return "36rem";
+
   const extBarSize = 3.3;
   let height = "36rem";
   if (barCount > 10) {
