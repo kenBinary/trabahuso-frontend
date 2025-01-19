@@ -29,14 +29,15 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { IoIosInformationCircleOutline } from "react-icons/io";
-import useFetch from "../../hooks/useFetch";
 import Callout from "../Callout";
+import { useQuery } from "@tanstack/react-query";
 
 interface StatCardProps {
   statLabel: string;
   statNumber: string;
   statHelpText?: string;
 }
+
 function StatCard({ statLabel, statNumber, statHelpText }: StatCardProps) {
   return (
     <Stat
@@ -51,6 +52,7 @@ function StatCard({ statLabel, statNumber, statHelpText }: StatCardProps) {
     </Stat>
   );
 }
+
 const steps = [
   {
     title: "Scraping",
@@ -76,17 +78,29 @@ const steps = [
       "Data is then retrieved by the frontend via an API and displayed as charts.",
   },
 ];
+
 interface Job {
-  job_title: string;
+  jobDataId: string;
+  jobTitle: string;
   location: string;
   salary: number | null;
-  job_level: string | null;
-  date_scraped: string;
+  jobLevel: string | null;
+  dateScraped: string;
 }
-interface JobData {
-  data: Array<Job>;
-  count: number;
+
+async function fetchJobs() {
+  const jobUrl = import.meta.env.VITE_JOBS_ENDPOINT;
+
+  const params = new URLSearchParams({
+    IsDescending: "true",
+    RetrieveAll: "true",
+    SortBy: "date_scraped",
+  });
+
+  const response = await fetch(jobUrl + "?" + params.toString());
+  return response.json();
 }
+
 export default function Overview() {
   const stepperOrientation = useBreakpointValue(
     { base: "vertical", sm: "vertical", md: "horizontal", xl: "horizontal" },
@@ -98,45 +112,51 @@ export default function Overview() {
     { ssr: false }
   );
 
-  const url = import.meta.env.VITE_JOBS_ENDPOINT;
-  const [{ isLoading, isError, data }] = useFetch<JobData>(url, {
-    data: [],
-    count: 0,
+  const { isPending, error, data } = useQuery<Array<Job>>({
+    queryKey: ["jobs"],
+    queryFn: fetchJobs,
   });
 
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
 
-  const jobsScrapedThisMonth = data.data.filter((job) => {
-    const jobMonth = job.date_scraped.split("-")[1];
-    return Number(jobMonth) === Number(currentMonth);
-  });
-  const totalJobsScraped = isError ? "error" : data.count;
+  let jobsScrapedThisMonth: Array<Job> = [];
+  let firstDateScraped = "------";
+  let lastDateScraped = "------";
+
+  if (!isPending && error == null) {
+    jobsScrapedThisMonth = data.filter((job) => {
+      const jobMonth = job.dateScraped.split("-")[1];
+      return Number(jobMonth) === Number(currentMonth);
+    });
+
+    if (data.length > 0) {
+      const startDate = new Date(data[0].dateScraped);
+      firstDateScraped = startDate.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+
+      const lastDate = new Date(data[data.length - 1].dateScraped);
+      lastDateScraped = lastDate.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+    }
+  }
+
   const jobCountMonth = jobsScrapedThisMonth.length;
+
   const jobCountWeek = jobsScrapedThisMonth.filter((job) => {
-    const jobDate = job.date_scraped;
+    const jobDate = job.dateScraped;
     const dayDifference = (
       (Number(currentDate) - Number(new Date(jobDate))) /
       86400000
     ).toFixed(0);
     return Number(dayDifference) <= 7;
   }).length;
-  let firstDateScrape = "------";
-  let lastDateScrape = "------";
-  if (data.data.length > 0) {
-    const startDate = new Date(data.data[data.count - 1].date_scraped);
-    const lastDate = new Date(data.data[0].date_scraped);
-    firstDateScrape = startDate.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
-    lastDateScrape = lastDate.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
-  }
 
   return (
     <Flex
@@ -200,23 +220,29 @@ export default function Overview() {
       <SimpleGrid gap="4" columns={{ base: 1, sm: 1, md: 2, xl: 4 }}>
         <StatCard
           statLabel="Total Jobs Scraped"
-          statNumber={isLoading ? "...." : totalJobsScraped.toString()}
+          statNumber={isPending ? "...." : error ? "" : `${data.length}`}
           statHelpText={
-            isLoading ? "..." : `${firstDateScrape} - ${lastDateScrape}`
+            isPending
+              ? "..."
+              : error
+              ? ""
+              : `${firstDateScraped} - ${lastDateScraped}`
           }
         ></StatCard>
 
         <StatCard
           statLabel="Jobs Scraped This Month"
-          statNumber={isLoading ? "...." : jobCountMonth.toString()}
+          statNumber={isPending ? "...." : jobCountMonth.toString()}
         ></StatCard>
+
         <StatCard
           statLabel="Jobs Scraped Past 7 Days"
-          statNumber={isLoading ? "...." : jobCountWeek.toString()}
+          statNumber={isPending ? "...." : jobCountWeek.toString()}
         ></StatCard>
+
         <StatCard
           statLabel="Last Scraped"
-          statNumber={isLoading ? "...." : lastDateScrape}
+          statNumber={isPending ? "...." : lastDateScraped}
         ></StatCard>
       </SimpleGrid>
 

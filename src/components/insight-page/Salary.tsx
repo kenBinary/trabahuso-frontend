@@ -8,23 +8,26 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { SimpleBarChart } from "../charts";
-import useFetch from "../../hooks/useFetch";
 import { setBarChartHeight } from "../../util/elementHeightUtil";
+import { useQuery } from "@tanstack/react-query";
 
-interface SalaryRange {
+interface SalaryDistribution {
   range: string;
   count: number;
 }
-interface SalaryData {
-  undisclosed: number;
-  disclosed: Array<SalaryRange>;
+
+async function fetchSalaryDistribution(): Promise<Array<SalaryDistribution>> {
+  const salaryDistributionUrl = import.meta.env
+    .VITE_SALARY_DISTRIBUTION_ENDPOINT;
+
+  const response = await fetch(salaryDistributionUrl);
+  return response.json();
 }
 
 export default function Salary() {
-  const url = import.meta.env.VITE_SALARY_RANGE_ENDPOINT;
-  const [{ isLoading, isError, data }] = useFetch<SalaryData>(url, {
-    undisclosed: 0,
-    disclosed: [],
+  const { isPending, error, data } = useQuery({
+    queryKey: ["salaryDistribution"],
+    queryFn: fetchSalaryDistribution,
   });
 
   return (
@@ -39,11 +42,11 @@ export default function Salary() {
 
       <Flex
         w="full"
-        height={setBarChartHeight(data.disclosed.length)}
+        height={data ? setBarChartHeight(data.length) : setBarChartHeight()}
         justifyContent="center"
         alignItems="center"
       >
-        {isLoading ? (
+        {isPending ? (
           <Spinner
             thickness="4px"
             speed="0.65s"
@@ -51,10 +54,10 @@ export default function Salary() {
             color="blue.500"
             size="xl"
           />
-        ) : isError ? (
+        ) : error ? (
           <Heading>Failed to retrieve data</Heading>
         ) : (
-          <SimpleBarChart data={data.disclosed}></SimpleBarChart>
+          <SimpleBarChart data={data} barDataKey="count"></SimpleBarChart>
         )}
       </Flex>
 

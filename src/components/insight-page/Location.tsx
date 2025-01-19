@@ -8,55 +8,82 @@ import {
   Switch,
 } from "@chakra-ui/react";
 import { SimpleBarChart } from "../charts";
-import useFetch from "../../hooks/useFetch";
 import { setBarChartHeight } from "../../util/elementHeightUtil";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 interface JobLocation {
   location: string;
-  "job count": number;
-  "median salary": number;
+  count: number;
 }
 
-interface JobLocations {
-  data: Array<JobLocation>;
-  limitCount: number;
-  totalCount: number;
+interface JobMedianSalary {
+  location: string;
+  salary: number;
+}
+
+async function fetchJobLocations(getAll: boolean): Promise<Array<JobLocation>> {
+  const jobLocationUrl = import.meta.env.VITE_JOB_LOCATIONS_ENDPOINT;
+
+  const params = new URLSearchParams({
+    IsDescending: "true",
+  });
+
+  if (getAll) {
+    params.append("RetrieveAll", "true");
+  }
+
+  const response = await fetch(jobLocationUrl + "?" + params.toString());
+  return response.json();
+}
+
+async function fetchJobLocationMedianSalary(
+  getAll: boolean
+): Promise<Array<JobMedianSalary>> {
+  const jobLocationUrl = import.meta.env
+    .VITE_JOB_LOCATIONS_MEDIAN_SALARY_ENDPOINT;
+
+  const params = new URLSearchParams({
+    IsDescending: "true",
+  });
+
+  if (getAll) {
+    params.append("RetrieveAll", "true");
+  }
+
+  const response = await fetch(jobLocationUrl + "?" + params.toString());
+  return response.json();
 }
 
 export default function Location() {
-  const jobLocationUrl = import.meta.env.VITE_JOB_LOCATIONS_ENDPOINT;
-  const [{ isLoading, isError, data }, doFetch] = useFetch<JobLocations>(
-    jobLocationUrl,
-    {
-      data: [],
-      limitCount: 0,
-      totalCount: 0,
-    },
-    {
-      limit: "10",
-      sort: "jobCount",
-      order: "desc",
-    }
-  );
+  const [getAllLocation, setGetAllLocation] = useState(false);
+  const [getAllSalary, setGetAllSalary] = useState(false);
 
-  function handleShowData(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.checked) {
-      doFetch(jobLocationUrl, {
-        sort: "jobCount",
-        order: "desc",
-      });
-    } else {
-      doFetch(jobLocationUrl, {
-        limit: "10",
-        sort: "jobCount",
-        order: "desc",
-      });
-    }
-  }
-
-  const medianSalaryList = data.data.filter((job) => {
-    return job["median salary"] !== null && Number(job["median salary"]) !== 0;
+  const {
+    isPending: isPendingLocation,
+    error: errorLocation,
+    data: dataLocation,
+  } = useQuery({
+    queryKey: ["jobLocationData", getAllLocation],
+    queryFn: () => fetchJobLocations(getAllLocation),
   });
+
+  const {
+    isPending: isPendingMedianSalary,
+    error: errorMedianSalary,
+    data: dataMedianSalary,
+  } = useQuery({
+    queryKey: ["jobLocationMedianSalary", getAllSalary],
+    queryFn: () => fetchJobLocationMedianSalary(getAllSalary),
+  });
+
+  const handleGetAllLocation = () => {
+    setGetAllLocation(!getAllLocation);
+  };
+
+  const handleGetAllSalary = () => {
+    setGetAllSalary(!getAllSalary);
+  };
 
   return (
     <VStack px={{ base: 2, sm: 8, md: 24, xl: 56 }} align="start" gap="4">
@@ -76,23 +103,27 @@ export default function Location() {
           flexShrink="0"
         >
           <FormLabel htmlFor="complete-job-frequency" mb="0">
-            Show Complete job frequency
+            Show Complete Data
           </FormLabel>
           <Switch
             id="complete-job-frequency"
             colorScheme="cyan"
-            onChange={handleShowData}
+            onChange={handleGetAllLocation}
           />
         </FormControl>
       </Flex>
 
       <Flex
         w="full"
-        height={setBarChartHeight(data.data.length)}
+        height={
+          dataLocation
+            ? setBarChartHeight(dataLocation.length)
+            : setBarChartHeight()
+        }
         justifyContent="center"
         alignItems="center"
       >
-        {isLoading ? (
+        {isPendingLocation ? (
           <Spinner
             thickness="4px"
             speed="0.65s"
@@ -100,27 +131,51 @@ export default function Location() {
             color="blue.500"
             size="xl"
           />
-        ) : isError ? (
+        ) : errorLocation ? (
           <Heading>Failed to retrieve data</Heading>
         ) : (
           <SimpleBarChart
-            data={data.data}
-            barDataKey="job count"
+            data={dataLocation}
+            barDataKey="count"
           ></SimpleBarChart>
         )}
       </Flex>
 
-      <Heading as="h4" size="md">
-        Median Salary by location
-      </Heading>
+      <Flex
+        flexDirection={{ base: "column", sm: "column", md: "row", xl: "row" }}
+        gap="5"
+      >
+        <Heading as="h4" size="md" flexGrow="1" flexShrink="0">
+          Median Salary by location
+        </Heading>
+        <FormControl
+          display="flex"
+          alignItems="center"
+          flexGrow="1"
+          flexShrink="0"
+        >
+          <FormLabel htmlFor="complete-job-salary" mb="0">
+            Show Complete Data
+          </FormLabel>
+          <Switch
+            id="complete-job-salary"
+            colorScheme="cyan"
+            onChange={handleGetAllSalary}
+          />
+        </FormControl>
+      </Flex>
 
       <Flex
         w="full"
-        height={setBarChartHeight(data.data.length)}
+        height={
+          dataMedianSalary
+            ? setBarChartHeight(dataMedianSalary.length)
+            : setBarChartHeight()
+        }
         justifyContent="center"
         alignItems="center"
       >
-        {isLoading ? (
+        {isPendingMedianSalary ? (
           <Spinner
             thickness="4px"
             speed="0.65s"
@@ -128,12 +183,12 @@ export default function Location() {
             color="blue.500"
             size="xl"
           />
-        ) : isError ? (
+        ) : errorMedianSalary ? (
           <Heading>Failed to retrieve data</Heading>
         ) : (
           <SimpleBarChart
-            data={medianSalaryList}
-            barDataKey="median salary"
+            data={dataMedianSalary}
+            barDataKey="salary"
           ></SimpleBarChart>
         )}
       </Flex>

@@ -7,180 +7,100 @@ import {
   Switch,
 } from "@chakra-ui/react";
 import { SimpleBarChart } from "../charts";
-import useFetch from "../../hooks/useFetch";
 import { setBarChartHeight } from "../../util/elementHeightUtil";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
-interface Tech {
-  tech_type: string;
+interface TechCount {
+  techType: string;
   count: number;
 }
-interface TechStackData {
-  data: Array<Tech>;
-  limitCount: number;
-  totalCount: number;
+
+enum Category {
+  ProgrammingLanguages = "programming_languages",
+  Databases = "databases",
+  FrameworksAndLibraries = "frameworks_and_libraries",
+  CloudPlatforms = "cloud_platforms",
+  Tools = "tools",
 }
+
+async function fetchTechCounts(
+  getAll: boolean,
+  category: Category
+): Promise<Array<TechCount>> {
+  const jobLocationUrl = import.meta.env.VITE_TECH_STACK_COUNTS_ENDPOINT;
+
+  const params = new URLSearchParams({
+    IsDescending: "true",
+    Category: category,
+  });
+
+  if (getAll) {
+    params.append("RetrieveAll", "true");
+  }
+
+  const response = await fetch(jobLocationUrl + "?" + params.toString());
+  return response.json();
+}
+
 export default function Technologies() {
-  const url = import.meta.env.VITE_TECH_STACK_ENDPOINT;
+  const [getAllProgLang, setGetAllProgLang] = useState(false);
+  const [getAllDatabases, setGetAllDatabases] = useState(false);
+  const [getAllFrameworksAndLibraries, setGetAllFrameworksAndLibraries] =
+    useState(false);
+  const [getAllCloudPlatforms, setGetAllCloudPlatforms] = useState(false);
+  const [getAllTools, setGetAllTools] = useState(false);
 
-  const [
-    { isLoading: plLoading, isError: plError, data: plData },
-    fetchProgrammingLanguages,
-  ] = useFetch<TechStackData>(
-    url,
-    {
-      data: [],
-      limitCount: 0,
-      totalCount: 0,
-    },
-    {
-      order: "desc",
-      category: "programming_languages",
-      limit: "10",
-    }
-  );
+  const {
+    isPending: isPendingProgLang,
+    error: errorProgLang,
+    data: dataProgLang,
+  } = useQuery({
+    queryKey: ["programmingLanguagesCount", getAllProgLang],
+    queryFn: () =>
+      fetchTechCounts(getAllProgLang, Category.ProgrammingLanguages),
+  });
 
-  function showAllProgrammingLanguage(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.checked) {
-      fetchProgrammingLanguages(url, {
-        order: "desc",
-        category: "programming_languages",
-      });
-    } else {
-      fetchProgrammingLanguages(url, {
-        order: "desc",
-        category: "programming_languages",
-        limit: "10",
-      });
-    }
-  }
+  const {
+    isPending: isPendingDatabases,
+    error: errorDatabases,
+    data: dataDatabases,
+  } = useQuery({
+    queryKey: ["databasesCount", getAllDatabases],
+    queryFn: () => fetchTechCounts(getAllDatabases, Category.Databases),
+  });
 
-  const [
-    { isLoading: dbLoading, isError: dbError, data: dbData },
-    fetchDatabases,
-  ] = useFetch<TechStackData>(
-    url,
-    {
-      data: [],
-      limitCount: 0,
-      totalCount: 0,
-    },
-    {
-      order: "desc",
-      category: "databases",
-      limit: "10",
-    }
-  );
+  const {
+    isPending: isPendingFrameworksAndLibraries,
+    error: errorFrameworksAndLibraries,
+    data: dataFrameworksAndLibraries,
+  } = useQuery({
+    queryKey: ["frameworksAndLibrariesCount", getAllFrameworksAndLibraries],
+    queryFn: () =>
+      fetchTechCounts(
+        getAllFrameworksAndLibraries,
+        Category.FrameworksAndLibraries
+      ),
+  });
 
-  function showAllDatabases(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.checked) {
-      fetchDatabases(url, {
-        order: "desc",
-        category: "databases",
-      });
-    } else {
-      fetchDatabases(url, {
-        order: "desc",
-        category: "databases",
-        limit: "10",
-      });
-    }
-  }
+  const {
+    isPending: isPendingCloudPlatforms,
+    error: errorCloudPlatforms,
+    data: dataCloudPlatforms,
+  } = useQuery({
+    queryKey: ["cloudPlatformsCount", getAllCloudPlatforms],
+    queryFn: () =>
+      fetchTechCounts(getAllCloudPlatforms, Category.CloudPlatforms),
+  });
 
-  const [
-    { isLoading: flLoading, isError: flError, data: flData },
-    fetchFrameAndLib,
-  ] = useFetch<TechStackData>(
-    url,
-    {
-      data: [],
-      limitCount: 0,
-      totalCount: 0,
-    },
-    {
-      order: "desc",
-      category: "frameworks_and_libraries",
-      limit: "10",
-    }
-  );
-
-  function showAllFrameAndLibs(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.checked) {
-      fetchFrameAndLib(url, {
-        order: "desc",
-        category: "frameworks_and_libraries",
-      });
-    } else {
-      fetchFrameAndLib(url, {
-        order: "desc",
-        category: "frameworks_and_libraries",
-        limit: "10",
-      });
-    }
-  }
-
-  const [
-    { isLoading: clpLoading, isError: clpError, data: clpData },
-    fetchCloudPlat,
-  ] = useFetch<TechStackData>(
-    url,
-    {
-      data: [],
-      limitCount: 0,
-      totalCount: 0,
-    },
-    {
-      order: "desc",
-      category: "cloud_platforms",
-      limit: "10",
-    }
-  );
-
-  function showAllCloudPlat(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.checked) {
-      fetchCloudPlat(url, {
-        order: "desc",
-        category: "cloud_platforms",
-      });
-    } else {
-      fetchCloudPlat(url, {
-        order: "desc",
-        category: "cloud_platforms",
-        limit: "10",
-      });
-    }
-  }
-
-  const [
-    { isLoading: tlsLoading, isError: tlsError, data: tlsData },
-    fetchTools,
-  ] = useFetch<TechStackData>(
-    url,
-    {
-      data: [],
-      limitCount: 0,
-      totalCount: 0,
-    },
-    {
-      order: "desc",
-      category: "tools",
-      limit: "10",
-    }
-  );
-
-  function showAllTools(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.checked) {
-      fetchTools(url, {
-        order: "desc",
-        category: "tools",
-      });
-    } else {
-      fetchTools(url, {
-        order: "desc",
-        category: "tools",
-        limit: "10",
-      });
-    }
-  }
+  const {
+    isPending: isPendingTools,
+    error: errorTools,
+    data: dataTools,
+  } = useQuery({
+    queryKey: ["toolsCount", getAllTools],
+    queryFn: () => fetchTechCounts(getAllTools, Category.Tools),
+  });
 
   return (
     <Flex
@@ -204,17 +124,22 @@ export default function Technologies() {
           <Switch
             id="show-programming-languages"
             colorScheme="cyan"
-            onChange={showAllProgrammingLanguage}
+            onChange={() => setGetAllProgLang(!getAllProgLang)}
           />
         </FormControl>
       </Flex>
+
       <Flex
         w="full"
-        height={setBarChartHeight(plData.data.length)}
+        height={
+          dataProgLang
+            ? setBarChartHeight(dataProgLang.length)
+            : setBarChartHeight()
+        }
         justifyContent="center"
         alignItems="center"
       >
-        {plLoading ? (
+        {isPendingProgLang ? (
           <Spinner
             thickness="4px"
             speed="0.65s"
@@ -222,10 +147,13 @@ export default function Technologies() {
             color="blue.500"
             size="xl"
           />
-        ) : plError ? (
+        ) : errorProgLang ? (
           <Heading>Failed to retrieve data</Heading>
         ) : (
-          <SimpleBarChart data={plData.data}></SimpleBarChart>
+          <SimpleBarChart
+            data={dataProgLang}
+            barDataKey="count"
+          ></SimpleBarChart>
         )}
       </Flex>
 
@@ -243,17 +171,22 @@ export default function Technologies() {
           <Switch
             id="show-databases"
             colorScheme="cyan"
-            onChange={showAllDatabases}
+            onChange={() => setGetAllDatabases(!getAllDatabases)}
           />
         </FormControl>
       </Flex>
+
       <Flex
         w="full"
-        height={setBarChartHeight(dbData.data.length)}
+        height={
+          dataDatabases
+            ? setBarChartHeight(dataDatabases.length)
+            : setBarChartHeight()
+        }
         justifyContent="center"
         alignItems="center"
       >
-        {dbLoading ? (
+        {isPendingDatabases ? (
           <Spinner
             thickness="4px"
             speed="0.65s"
@@ -261,10 +194,13 @@ export default function Technologies() {
             color="blue.500"
             size="xl"
           />
-        ) : dbError ? (
+        ) : errorDatabases ? (
           <Heading>Failed to retrieve data</Heading>
         ) : (
-          <SimpleBarChart data={dbData.data}></SimpleBarChart>
+          <SimpleBarChart
+            data={dataDatabases}
+            barDataKey="count"
+          ></SimpleBarChart>
         )}
       </Flex>
 
@@ -282,17 +218,24 @@ export default function Technologies() {
           <Switch
             id="show-frmwkrs-libs"
             colorScheme="cyan"
-            onChange={showAllFrameAndLibs}
+            onChange={() =>
+              setGetAllFrameworksAndLibraries(!getAllFrameworksAndLibraries)
+            }
           />
         </FormControl>
       </Flex>
+
       <Flex
         w="full"
-        height={setBarChartHeight(flData.data.length)}
+        height={
+          dataFrameworksAndLibraries
+            ? setBarChartHeight(dataFrameworksAndLibraries.length)
+            : setBarChartHeight()
+        }
         justifyContent="center"
         alignItems="center"
       >
-        {flLoading ? (
+        {isPendingFrameworksAndLibraries ? (
           <Spinner
             thickness="4px"
             speed="0.65s"
@@ -300,10 +243,13 @@ export default function Technologies() {
             color="blue.500"
             size="xl"
           />
-        ) : flError ? (
+        ) : errorFrameworksAndLibraries ? (
           <Heading>Failed to retrieve data</Heading>
         ) : (
-          <SimpleBarChart data={flData.data}></SimpleBarChart>
+          <SimpleBarChart
+            data={dataFrameworksAndLibraries}
+            barDataKey="count"
+          ></SimpleBarChart>
         )}
       </Flex>
 
@@ -321,17 +267,22 @@ export default function Technologies() {
           <Switch
             id="show-cloud-platforms"
             colorScheme="cyan"
-            onChange={showAllCloudPlat}
+            onChange={() => setGetAllCloudPlatforms(!getAllCloudPlatforms)}
           />
         </FormControl>
       </Flex>
+
       <Flex
         w="full"
-        height={setBarChartHeight(clpData.data.length)}
+        height={
+          dataCloudPlatforms
+            ? setBarChartHeight(dataCloudPlatforms.length)
+            : setBarChartHeight()
+        }
         justifyContent="center"
         alignItems="center"
       >
-        {clpLoading ? (
+        {isPendingCloudPlatforms ? (
           <Spinner
             thickness="4px"
             speed="0.65s"
@@ -339,10 +290,13 @@ export default function Technologies() {
             color="blue.500"
             size="xl"
           />
-        ) : clpError ? (
+        ) : errorCloudPlatforms ? (
           <Heading>Failed to retrieve data</Heading>
         ) : (
-          <SimpleBarChart data={clpData.data}></SimpleBarChart>
+          <SimpleBarChart
+            data={dataCloudPlatforms}
+            barDataKey="count"
+          ></SimpleBarChart>
         )}
       </Flex>
 
@@ -357,16 +311,23 @@ export default function Technologies() {
           <FormLabel htmlFor="show-tools" mb="0">
             Show Complete tools
           </FormLabel>
-          <Switch id="show-tools" colorScheme="cyan" onChange={showAllTools} />
+          <Switch
+            id="show-tools"
+            colorScheme="cyan"
+            onChange={() => setGetAllTools(!getAllTools)}
+          />
         </FormControl>
       </Flex>
+
       <Flex
         w="full"
-        height={setBarChartHeight(tlsData.data.length)}
+        height={
+          dataTools ? setBarChartHeight(dataTools.length) : setBarChartHeight()
+        }
         justifyContent="center"
         alignItems="center"
       >
-        {tlsLoading ? (
+        {isPendingTools ? (
           <Spinner
             thickness="4px"
             speed="0.65s"
@@ -374,10 +335,10 @@ export default function Technologies() {
             color="blue.500"
             size="xl"
           />
-        ) : tlsError ? (
+        ) : errorTools ? (
           <Heading>Failed to retrieve data</Heading>
         ) : (
-          <SimpleBarChart data={tlsData.data}></SimpleBarChart>
+          <SimpleBarChart data={dataTools} barDataKey="count"></SimpleBarChart>
         )}
       </Flex>
     </Flex>
