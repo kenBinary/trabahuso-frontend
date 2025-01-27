@@ -34,6 +34,11 @@ async function fetchJobLocations(getAll: boolean): Promise<Array<JobLocation>> {
   }
 
   const response = await fetch(jobLocationUrl + "?" + params.toString());
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch job locations");
+  }
+
   return response.json();
 }
 
@@ -52,6 +57,11 @@ async function fetchJobLocationMedianSalary(
   }
 
   const response = await fetch(jobLocationUrl + "?" + params.toString());
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch job locations median salary");
+  }
+
   return response.json();
 }
 

@@ -21,6 +21,11 @@ async function fetchSalaryDistribution(): Promise<Array<SalaryDistribution>> {
     .VITE_SALARY_DISTRIBUTION_ENDPOINT;
 
   const response = await fetch(salaryDistributionUrl);
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch salary distribution");
+  }
+
   return response.json();
 }
 

@@ -40,6 +40,11 @@ async function fetchTechCounts(
   }
 
   const response = await fetch(jobLocationUrl + "?" + params.toString());
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch tech counts");
+  }
+
   return response.json();
 }
 

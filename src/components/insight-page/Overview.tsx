@@ -98,6 +98,11 @@ async function fetchJobs() {
   });
 
   const response = await fetch(jobUrl + "?" + params.toString());
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch jobs");
+  }
+
   return response.json();
 }
 
