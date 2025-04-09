@@ -16,6 +16,27 @@ interface SalaryDistribution {
   count: number;
 }
 
+function formatSalaryRange(salaryRange: string): string {
+  try {
+    const [minSalary, maxSalary] = salaryRange.split("-");
+
+    const minValue = parseInt(minSalary, 10);
+    const maxValue = parseInt(maxSalary, 10);
+
+    if (isNaN(minValue) || isNaN(maxValue)) {
+      throw new Error("Invalid salary range format");
+    }
+
+    const formattedMin = minValue.toLocaleString("en-US");
+    const formattedMax = maxValue.toLocaleString("en-US");
+
+    return `₱${formattedMin}-₱${formattedMax}`;
+  } catch (error) {
+    console.error("Error formatting salary range:", error);
+    return salaryRange;
+  }
+}
+
 async function fetchSalaryDistribution(): Promise<Array<SalaryDistribution>> {
   const salaryDistributionUrl = import.meta.env
     .VITE_SALARY_DISTRIBUTION_ENDPOINT;
@@ -26,7 +47,13 @@ async function fetchSalaryDistribution(): Promise<Array<SalaryDistribution>> {
     throw new Error("Failed to fetch salary distribution");
   }
 
-  return response.json();
+  let data: SalaryDistribution[] = await response.json();
+
+  data = data.map((item) => {
+    return { ...item, range: formatSalaryRange(item.range) };
+  });
+
+  return data;
 }
 
 export default function Salary() {
