@@ -15,9 +15,12 @@
     "@emotion/styled": "^11.11.5",
     "@tanstack/react-query": "^5.63.0",
     "framer-motion": "^11.0.25",
+    "plotly.js": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-google-charts": "^5.2.1",
     "react-icons": "^5.0.1",
+    "react-plotly.js": "^2.6.0",
     "recharts": "^2.12.4"
   },
   "devDependencies": {
