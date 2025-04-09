@@ -109,12 +109,12 @@ async function fetchJobs() {
 export default function Overview() {
   const stepperOrientation = useBreakpointValue(
     { base: "vertical", sm: "vertical", md: "horizontal", xl: "horizontal" },
-    { ssr: false }
+    { ssr: false },
   );
 
   const popOverPlacement = useBreakpointValue<PlacementWithLogical>(
     { base: "top-start", sm: "top-end", md: "top-start", xl: "top" },
-    { ssr: false }
+    { ssr: false },
   );
 
   const { isPending, error, data } = useQuery<Array<Job>>({
@@ -124,6 +124,7 @@ export default function Overview() {
 
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
+  const currentYear = currentDate.getFullYear();
 
   let jobsScrapedThisMonth: Array<Job> = [];
   let firstDateScraped = "------";
@@ -132,7 +133,11 @@ export default function Overview() {
   if (!isPending && error == null) {
     jobsScrapedThisMonth = data.filter((job) => {
       const jobMonth = job.dateScraped.split("-")[1];
-      return Number(jobMonth) === Number(currentMonth);
+      const jobYear = job.dateScraped.split("-")[0];
+      return (
+        Number(jobMonth) === Number(currentMonth) &&
+        Number(jobYear) === Number(currentYear)
+      );
     });
 
     if (data.length > 0) {
@@ -230,8 +235,8 @@ export default function Overview() {
             isPending
               ? "..."
               : error
-              ? ""
-              : `${firstDateScraped} - ${lastDateScraped}`
+                ? ""
+                : `${firstDateScraped} - ${lastDateScraped}`
           }
         ></StatCard>
 
