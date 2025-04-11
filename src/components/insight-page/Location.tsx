@@ -11,6 +11,7 @@ import { SimpleBarChart } from "../charts";
 import { setBarChartHeight } from "../../util/elementHeightUtil";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import ChoroplethVisualization from "./ChoroplethVisualization";
 
 interface JobLocation {
   location: string;
@@ -43,7 +44,7 @@ async function fetchJobLocations(getAll: boolean): Promise<Array<JobLocation>> {
 }
 
 async function fetchJobLocationMedianSalary(
-  getAll: boolean
+  getAll: boolean,
 ): Promise<Array<JobMedianSalary>> {
   const jobLocationUrl = import.meta.env
     .VITE_JOB_LOCATIONS_MEDIAN_SALARY_ENDPOINT;
@@ -98,6 +99,33 @@ export default function Location() {
   return (
     <VStack px={{ base: 2, sm: 8, md: 24, xl: 56 }} align="start" gap="4">
       <Heading>Location</Heading>
+
+      <Flex
+        flexDirection={{ base: "column", sm: "column", md: "row", xl: "row" }}
+        gap="5"
+        width={"100%"}
+        height={"600px"}
+        align="center"
+        justify="center"
+      >
+        {isPendingLocation ? (
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
+          />
+        ) : errorLocation ? (
+          <Heading>Failed to retrieve data</Heading>
+        ) : (
+          <ChoroplethVisualization
+            width="100%"
+            height="100%"
+            data={dataLocation}
+          ></ChoroplethVisualization>
+        )}
+      </Flex>
 
       <Flex
         flexDirection={{ base: "column", sm: "column", md: "row", xl: "row" }}
